@@ -1,9 +1,12 @@
-'use client'
-import dayjs from 'dayjs';
-export default async function NoteList({ notes }) {
+import SidebarNoteItem from '@/components/SidebarNoteItem';
+import { getAllNotes } from "@/lib/redis"
 
+export default async function NoteList() {
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  await sleep(2000);
+  const notes = await getAllNotes()
   const arr = Object.entries(notes);
-  console.log('[ arr ]',arr);
+
   if (arr.length == 0) {
     return <div className="notes-empty">
       {'No notes created yet!'}
@@ -12,12 +15,8 @@ export default async function NoteList({ notes }) {
 
   return <ul className="notes-list">
     {arr.map(([noteId, note]) => {
-    const { title, updateTime } = JSON.parse(note);
     return <li key={noteId}>
-      <header className="sidebar-note-header">
-        <strong>{title}</strong>
-        <small>{dayjs(updateTime).format('YYYY-MM-DD hh:mm:ss')}</small>
-      </header>
+      <SidebarNoteItem noteId={noteId} note={JSON.parse(note)} />
     </li>
   })}
   </ul>
