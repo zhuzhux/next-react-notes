@@ -17,8 +17,8 @@ export default async function Page({ params }) {
           Click a note on the left to view something! 🥺
         </span>
       </div>
-    )
+    );
   }
 
-  return <Note noteId={noteId} note={note} ></Note>;
+  return <Note noteId={noteId} note={note}></Note>;
 }
